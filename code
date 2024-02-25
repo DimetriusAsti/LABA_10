@@ -1,0 +1,44 @@
+#include <iostream>
+#include <string>
+#include <clocale>
+
+using namespace std;
+
+int main() {
+    setlocale(LC_ALL, "ru");
+    int size;
+    cout << "Введите количество строк: ";
+    cin >> size;
+
+    // Выделение памяти под динамический массив строк
+    string* dynamicStrings = new string[size];
+
+    // Ввод строк
+    cin.ignore(); // очищаем буфер ввода перед вводом строк
+    for (int i = 0; i < size; ++i) {
+        cout << "Введите строку " << i + 1 << ": ";
+        getline(cin, dynamicStrings[i]);
+    }
+
+    // Удаление строк, начинающихся и заканчивающихся на одну и ту же букву
+    int newSize = 0; // Новый размер массива после удаления строк
+    for (int i = 0; i < size; ++i) {
+        const string& str = dynamicStrings[i];
+        if (str.length() >= 2 && str.front() == str.back()) {
+            continue; // Пропускаем строку, которую нужно удалить
+        }
+        dynamicStrings[newSize] = dynamicStrings[i]; // Копируем строку в новый массив
+        ++newSize;
+    }
+
+    // Вывод измененного массива строк
+    cout << "Массив строк после удаления строк, начинающихся и заканчивающихся на одну и ту же букву:" << endl;
+    for (int i = 0; i < newSize; ++i) {
+        cout << dynamicStrings[i] << endl;
+    }
+
+    // Освобождение выделенной памяти
+    delete[] dynamicStrings;
+
+    return 0;
+}
